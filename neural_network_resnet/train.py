@@ -46,7 +46,6 @@ def get_name_index(prefix):
   return index
 
 def main():
-
   train_ds = image_dataset_from_directory(
     os.path.join(OUTPUT_DIR, 'train'),
     image_size=INPUT_SHAPE,
@@ -55,7 +54,7 @@ def main():
     class_names=CLASSES,
     batch_size=BATCH_SIZE,
     shuffle=True,
-  )
+  ) # 80%
 
   test_ds = image_dataset_from_directory(
     os.path.join(OUTPUT_DIR, 'test'),
@@ -65,13 +64,17 @@ def main():
     class_names=CLASSES,
     batch_size=BATCH_SIZE,
     shuffle=True,
-  )
+  ) 
 
+  # imgaug
+  # run aug before running code
   img_augmentation = Sequential([
-      layers.RandomRotation(factor=1),
+      layers.RandomRotation(factor=0.5),
       layers.RandomTranslation(height_factor=0.1, width_factor=0.1),
       layers.RandomFlip(),
-      layers.RandomContrast(factor=0.1),
+      layers.RandomContrast(factor=0.1), # check value
+      # blur
+      # noise (gaussian, salt and pepper)
     ],
     name='img_augmentation',
   )
